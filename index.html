@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<pre>
+<strong>HTML</strong>
+<br>
+&lt;div&gt;
+    fefe
+&lt;/div&gt;
+</pre>
+    <h1>PHRASE DE BIENVENUE</h1>
+    <button id="changeUser">Change User</button>
+    <br>
+    <!-- Dark or Light Theme -->
+    <button id="themeClair"></button>
+    <button id="themeSombre"></button>
+    <!-- Image Swapable -->
+    <img src="images/aaran-holo.png" alt="a digital card"/>
+    <br>
+    <button id="toggleButton">NEXT</button>
+<!-- Differents form et option select -->
+<form id="plansForm">
+    <input type="datetime-local">
+    <br>
+    <input class="inputemail" type="email" placeholder="Entrez votre email mon cher momzyQQ">
+    <br>
+    <input type="file">
+    <br>
+    <form>
+        <label for="username">Username <i>(letters and numbers only, no  punctuation or special characters)</i></label><br>
+        <input name="username" id="username" pattern="[A-Za-z0-9]+">
+       </form>
+       <br>
+    <select id="plansSubs">
+        <option>1€</option>
+        <option>2€</option>
+        <optgroup label="Basic Plans">
+            <option>Silver Plan 5.99€/mois</option>
+            <option>Gold Plan 9.99€/mois</option>
+            <option>Diamond Plan 15.99€/mois</option>
+        </optgroup>
+        <optgroup label="Pro Plans">
+            <option checked>Small Plan 9.99€/mois</option>
+            <option>Medium Plan 99.99€/mois</option>
+            <option>Large Plan 299.99€/mois</option>
+            <option>Custom Plan X€/mois</option>
+        </optgroup>
+    </select>
+</form>
+<form>
+    <label for="image">Click sur l'image</label><br>
+    <input type="image" src="images/tahnia-normal.png">
+</form>
+<progress id="progressbar" value="33" max="100"></progress>
+<button id="pbarbutton">PROGRESS TO 80</button>
+<br>
+<progress value="66" max="100"></progress>
+<br>
+<progress id="progressbar2" value="33" max="100"></progress>
+<button id="pbarbutton2">PROGRESS A OR B</button>
+<br>
+<progress id="progressBar3" value="0" max="100"></progress>
+<form id="progressForm">
+    <label for="progressOptions">Progress Options</label>
+    <select id="progressOptions">
+        <option value="10">10%</option>
+        <option value="20">20%</option>
+        <option value="30">30%</option>
+        <option value="40">40%</option>
+    </select>
+    <button type="submit">Refresh Progress</button>
+</form>
+<script>
+    let myImage = document.querySelector("img");
+
+myImage.addEventListener("click", function () {
+  let mySrc = myImage.getAttribute("src");
+  if (mySrc === "images/aaran-holo.png") {
+    myImage.setAttribute("src", "images/tahnia-normal.png");
+  } else {
+    myImage.setAttribute("src", "images/aaran-holo.png");
+  }
+});
+let toggleButton = document.getElementById("toggleButton");
+
+toggleButton.addEventListener("click", function () {
+    let mySrc = myImage.getAttribute("src");
+    if (mySrc === "images/aaran-holo.png") {
+        myImage.setAttribute("src", "images/tahnia-normal.png");
+    } else {
+        myImage.src = "images/aaran-holo.png";
+    }
+});
+
+let progressbar = document.getElementById("progressbar");
+let progressbutton = document.getElementById("pbarbutton");
+
+        progressbutton.addEventListener("click", function () {
+    console.log("Button clicked");
+    progressbar.value = 80;
+    console.log("Progress bar value set to:", progressbar.value);
+});
+let progressbar2 = document.getElementById('progressbar2');
+let progressbutton2 = document.getElementById('pbarbutton2');
+
+progressbutton2.addEventListener("click", function() {
+    if (progressbar2.value == 33) {
+        console.log("Button Clicked")
+        progressbar2.value = 80;
+        console.log("Progressbar2 value set to 80")
+    } else {
+        console.log("Button Clicked")
+        progressbar2.value = 33;
+        console.log("Progressbar2 value set to 33")
+    }
+});
+let progressBar3 = document.getElementById("progressBar3");
+let progressForm = document.getElementById("progressForm");
+let progressOptions = document.getElementById("progressOptions");
+
+progressForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    console.log("Button Clicked")
+    let selectedProgress = parseInt(progressOptions.value);
+    console.log("Selected the option ", progressOptions.value, "%");
+
+    progressBar3.value = selectedProgress;
+});
+
+let welcome = document.querySelector("h1");
+let myWelcome = document.getElementById("changeUser");
+
+function setUserName() {
+  let myName = prompt("Veuillez saisir votre nom.");
+  let myAdress = prompt("Veuillez saisir votre code postal")
+  let myEmail = prompt("Veuillez saisir votre email")
+  let mySirname = prompt("VEzezeze")
+  while (!myName || myName.trim() === "") {
+    myName = prompt("Le nom ne peut être vide. Veuillez choisir un nom !")
+  }
+  while (!myAdress || myAdress.trim() === "") {
+    myAdress = prompt("Le code postal ne peut être vide. Veuillez choisir un code postal !")
+  }
+  while (!myEmail || myEmail.trim() === "") {
+    myEmail = prompt("L'email ne peut être vide. Veuillez choisir un email !")
+  }
+  while (!mySirname || mySirname.trim() === "") {
+    mySirname = prompt("L'email ne peut être vide. Veuillez choisir un email !")
+  }
+
+
+  localStorage.setItem("adress", myAdress);
+  localStorage.setItem("email", myEmail);
+  localStorage.setItem("nom", myName);
+  localStorage.setItem("sirname", mySirname);
+  welcome.textContent = "Bonjour, " + myName + " " + mySirname + " votre code postal est " + myAdress + " et votre email est " + myEmail;
+}
+
+// Récupère le nom stocké dans le localStorage
+let storedName = localStorage.getItem("nom");
+
+// Vérifie si le nom est invalide (null ou chaîne vide)
+if (!storedName || storedName.trim() === "") {
+  setUserName(); // Demande un nouveau nom
+} else {
+  welcome.textContent = "Bonjour, " + storedName; // Affiche le nom stocké
+}
+// Récupère le nom stocké dans le localStorage
+let storedAdress = localStorage.getItem("adress");
+
+// Vérifie si le nom est invalide (null ou chaîne vide)
+if (!storedAdress || storedAdress.trim() === "") {
+  setUserName(); // Demande un nouveau nom
+} else {
+  welcome.textContent = "Bonjour, " + storedName + "votre code postal est " + storedAdress; // Affiche le nom stocké
+}
+// Récupère le nom stocké dans le localStorage
+let storedEmail = localStorage.getItem("email");
+
+// Vérifie si le nom est invalide (null ou chaîne vide)
+if (!storedEmail || storedEmail.trim() === "") {
+  setUserName(); // Demande un nouveau nom
+} else {
+    welcome.textContent = "Bonjour, " + storedName + " votre code postal est " + storedAdress + " et votre email est " + storedEmail;
+}
+
+let storedSirname = localStorage.getItem("sirname");
+if (!storedSirname || storedSirname.trim() === "") {
+  setUserName(); // Demande un nouveau nom
+} else {
+    welcome.textContent = "Bonjour, " + storedName + " " + storedSirname +  " votre code postal est " + storedAdress + " et votre email est " + storedEmail;
+}
+
+myWelcome.addEventListener("click", function () {
+    localStorage.clear();
+    setUserName();
+});
+let lenght = localStorage.length;
+console.log(lenght);
+
+let themeClair = document.getElementById("themeClair");
+let themeSombre = document.getElementById("themeSombre");
+
+        // Récupérer le thème stocké
+        let theme = localStorage.getItem("theme") || "clair";
+        appliquerTheme(theme);
+
+        // Écouter les clics sur les boutons
+        themeClair.addEventListener("click", function () {
+            localStorage.setItem("theme", "clair");
+            appliquerTheme("clair");
+        });
+
+        themeSombre.addEventListener("click", function () {
+            localStorage.setItem("theme", "sombre");
+            appliquerTheme("sombre");
+        });
+
+        // Appliquer le thème
+        function appliquerTheme(themeChoisi) {
+            document.body.style.backgroundColor = themeChoisi === "clair" ? "blue" : "black";
+            document.body.style.color = themeChoisi === "clair" ? "black" : "blue";
+        }
+
+        for (let i = 0; i < localStorage.length; i++) {
+  let cle = localStorage.key(i); // Récupère la clé à l'index i
+  let valeur = localStorage.getItem(cle); // Récupère la valeur associée à la clé
+  console.log(cle + ": " + valeur);
+}
+
+</script>
+</body>
+</html>
