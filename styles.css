@@ -1,5 +1,5 @@
 body {
-    background-color: blue;
+    background-color: #15889c;
     display: inline-block;
 }
 
@@ -20,11 +20,11 @@ progress {
 
 #themeClair {
 
-    background-image: url('images/aaran-holo.png');
+    background-image: url('images/btndark.png');
     background-size: contain;
     background-repeat: no-repeat;
-    width: 50px;
-    height: 50px;
+    width: 150px;
+    height: 150px;
     background-color: transparent;
     border-style: none;
 
@@ -32,13 +32,27 @@ progress {
 
 #themeSombre {
 
-    background-image: url('images/tahnia-normal.png');
+    background-image: url('images/btnlight.png');
     background-repeat: no-repeat;
-    background-size: cover;
-    width: 50px;
-    height: 50px;
+    background-size: contain;
+    background-color: transparent;
+    width: 150px;
+    height: 150px;
+    border-style: none;
     
 }
+#themePicker {
+
+    background-image: url('images/btndark.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    width: 150px;
+    height: 150px;
+    border-style: none;
+    
+}
+
 
 .inputemail {
     width: 300px;

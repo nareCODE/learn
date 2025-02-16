@@ -14,12 +14,13 @@
     fefe
 &lt;/div&gt;
 </pre>
-    <h1>PHRASE DE BIENVENUE</h1>
+    <h1 class="lol">PHRASE DE BIENVENUE</h1>
     <button id="changeUser">Change User</button>
     <br>
     <!-- Dark or Light Theme -->
     <button id="themeClair"></button>
     <button id="themeSombre"></button>
+    <button id="themePicker"></button>
     <br>
     <!-- Image Swapable -->
     <img src="images/aaran-holo.png" alt="a digital card"/>
@@ -36,6 +37,7 @@
     <form>
         <label for="username">Username <i>(letters and numbers only, no  punctuation or special characters)</i></label><br>
         <input name="username" id="username" pattern="[A-Za-z0-9]+">
+        <input type="submit" id="submitname" value="SEND">
        </form>
        <br>
     <select id="plansSubs">
@@ -78,7 +80,8 @@
     <button type="submit">Refresh Progress</button>
 </form>
 <script>
-    let myImage = document.querySelector("img");
+  
+let myImage = document.querySelector("img");
 
 myImage.addEventListener("click", function () {
   let mySrc = myImage.getAttribute("src");
@@ -134,7 +137,7 @@ progressForm.addEventListener("submit", function(event) {
     progressBar3.value = selectedProgress;
 });
 
-let welcome = document.querySelector("h1");
+let welcome = document.querySelector("h1.lol");
 let myWelcome = document.getElementById("changeUser");
 
 function setUserName() {
@@ -177,7 +180,7 @@ let storedAdress = localStorage.getItem("adress");
 
 // Vérifie si le nom est invalide (null ou chaîne vide)
 if (!storedAdress || storedAdress.trim() === "") {
-  setUserName(); // Demande un nouveau nom
+  setUserName(); // Demande une nouvelle adresse
 } else {
   welcome.textContent = "Bonjour, " + storedName + "votre code postal est " + storedAdress; // Affiche le nom stocké
 }
@@ -186,14 +189,14 @@ let storedEmail = localStorage.getItem("email");
 
 // Vérifie si le nom est invalide (null ou chaîne vide)
 if (!storedEmail || storedEmail.trim() === "") {
-  setUserName(); // Demande un nouveau nom
+  setUserName(); // Demande un nouvel email
 } else {
     welcome.textContent = "Bonjour, " + storedName + " votre code postal est " + storedAdress + " et votre email est " + storedEmail;
 }
 
 let storedSirname = localStorage.getItem("sirname");
 if (!storedSirname || storedSirname.trim() === "") {
-  setUserName(); // Demande un nouveau nom
+  setUserName(); // Demande un nouveau sirname
 } else {
     welcome.textContent = "Bonjour, " + storedName + " " + storedSirname +  " votre code postal est " + storedAdress + " et votre email est " + storedEmail;
 }
@@ -207,29 +210,69 @@ console.log(lenght);
 
 let themeClair = document.getElementById("themeClair");
 let themeSombre = document.getElementById("themeSombre");
-
+let themePicker = document.getElementById("themePicker")
         // Récupérer le thème stocké
         let theme = localStorage.getItem("theme") || "clair";
         appliquerTheme(theme);
+        updateThemePickerImage(theme);
 
-        // Écouter les clics sur les boutons
+        // listen le boutton 
         themeClair.addEventListener("click", function () {
             localStorage.setItem("theme", "clair");
             appliquerTheme("clair");
-        });
 
+        });
+        // listen le boutton
         themeSombre.addEventListener("click", function () {
             localStorage.setItem("theme", "sombre");
             appliquerTheme("sombre");
         });
 
-        // Appliquer le thème
-        function appliquerTheme(themeChoisi) {
-            document.body.style.backgroundColor = themeChoisi === "clair" ? "blue" : "black";
-            document.body.style.color = themeChoisi === "clair" ? "black" : "blue";
-        }
+        themePicker.addEventListener("click", function () {
+    // Récupere le theme stocké
+    let currentTheme = localStorage.getItem("theme") || "clair";
 
-        for (let i = 0; i < localStorage.length; i++) {
+    // Toggle le theme
+    if (currentTheme === "clair") {
+        localStorage.setItem("theme", "sombre");
+        appliquerTheme("sombre");
+    } else {
+        localStorage.setItem("theme", "clair");
+        appliquerTheme("clair");
+    }
+    // Update l'image du boutton selon le theme
+    updateThemePickerImage(currentTheme === "clair" ? "sombre" : "clair");
+
+
+    // Overall Vérifie la chaine string du localStorage et les compare 
+});
+// Définition de la fonction changement d'image du boutton on/off
+function updateThemePickerImage(theme) {
+    // Change l'image basé sur le theme actuel
+    if (theme === "sombre") {
+        themePicker.style.backgroundImage = "url('images/btnlight.png')";
+    } else {
+        themePicker.style.backgroundImage = "url('images/btndark.png')";
+    }
+};
+
+
+ 
+
+  /* Marche aussi avec l'ajout ou la suppression de class CSS ".light" ou ".dark"
+  if (!theme === "clair") document.body.classList.remove("light")
+                          document.body.classList.add("dark")
+  else document.body.classList.remove("dark")
+       document.body.classList.add("light") */
+       
+ // Appliquer le thème
+  function appliquerTheme(theme) {
+            document.body.style.backgroundColor = theme === "clair" ? "#15889c" : "black";
+            document.body.style.color = theme === "clair" ? "black" : "#15889c";
+        }
+      
+
+  for (let i = 0; i < localStorage.length; i++) {
   let cle = localStorage.key(i); // Récupère la clé à l'index i
   let valeur = localStorage.getItem(cle); // Récupère la valeur associée à la clé
   console.log(cle + ": " + valeur);
