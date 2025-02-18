@@ -20,7 +20,10 @@
     <!-- Dark or Light Theme -->
     <button id="themeClair"></button>
     <button id="themeSombre"></button>
+    <br>
     <button id="themePicker"></button>
+    <br>
+    <button id="themeToggle"></button>
     <br>
     <!-- Image Swapable -->
     <img src="images/aaran-holo.png" alt="a digital card"/>
@@ -210,7 +213,7 @@ console.log(lenght);
 
 let themeClair = document.getElementById("themeClair");
 let themeSombre = document.getElementById("themeSombre");
-let themePicker = document.getElementById("themePicker")
+let themePicker = document.getElementById("themePicker");
         // Récupérer le thème stocké
         let theme = localStorage.getItem("theme") || "clair";
         appliquerTheme(theme);
@@ -279,5 +282,6 @@ function updateThemePickerImage(theme) {
 }
 
 </script>
+<script  src="main.js"></script>
 </body>
 </html>

@@ -52,7 +52,21 @@ progress {
     border-style: none;
     
 }
+#themeToggle {
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: transparent;
+    width: 150px;
+    height: 150px;
+    border-style: none;
+}
 
+.themeToggleActive {
+    background-image: url('images/btndark.png');
+}
+.themeToggleOff {
+    background-image: url('images/btnlight.png');
+}
 
 .inputemail {
     width: 300px;
