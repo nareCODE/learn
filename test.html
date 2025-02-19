@@ -3,13 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles3.css">
+    <link rel="stylesheet" href="test.css">
     <title>Document</title>
 </head>
 <body>
-    <img src="images/aaran-holo.png" alt="card"/>
-   <div class="boite" id="un"></div>
-   <div class="boite" id="deux"></div>
-   <div class="boite" id="trois"></div>
+<button data-en="Submit" data-fr="Soumettre">Submit</button>
+
+<button data-modal-target="#myModal">Open Modal</button>
+<div id="myModal" class="modal">
+    <div id="messagebox">
+    <p>This is a modal!</p>
+    </div>
+    <form id="enteryourmessage" name="messageplaceholder">
+    <textarea id="messageplaceholder"></textarea>
+    <button data-action="add" id="addmessagebutton" onclick="addMessage">+MSG</button>
+    </form>
+    <button data-close-modal>Close</button>
+</div>
+
+</script>
+<script>
+    const button = document.querySelector('button');
+    const lang = navigator.language.startsWith('en') ? 'en' : 'fr';
+    button.textContent = button.dataset[lang];
+
+const openButton = document.querySelector('[data-modal-target]');
+const closeButton = document.querySelector('[data-close-modal]');
+const modal = document.querySelector(openButton.dataset.modalTarget);
+const textarea = document.getElementById('messageplaceholder');
+const addMessageButton = document.getElementById('addmessagebutton');
+const messageBox = document.getElementById('messagebox');
+
+addMessageButton.addEventListener('click', (event) => {
+        event.preventDefault();
+
+    const MessageContent = textarea.value.trim();
+
+    if (MessageContent) {
+        const newMessage = document.createElement('p');
+        newMessage.textContent = MessageContent;
+        messageBox.appendChild(newMessage);
+        textarea.value = '';
+    }
+});
+
+openButton.addEventListener('click', () => {
+    modal.style.display = 'block';
+});
+
+closeButton.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+</script>
 </body>
 </html>
