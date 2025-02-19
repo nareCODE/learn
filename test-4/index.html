@@ -8,15 +8,52 @@
 </head>
 <body>
 <!-- Ici nous essaierons de réaliser une message box sans db -->
- <button data-modal-target="#myMessageBox" id="messages">OPEN CONVERSATION</div>
- <div id="messageBox">
- </div>
- <form id="newMessageForm">
-    <label for="username">Enter your nickname :</label>
-    <input type="text" id="userName" name="username">
-    <textarea id="newMessageplaceholder"></textarea>
-    <button data-action="add">SEND</button>
+ <button data-modal-target="#myMessageBox" id="messages">OPEN CONVERSATION</button>
+ <div id="myMessageBox" class="modal">
+    <div id="messageBox">
+        <p> test message</p>
+    </div>
+ <form id="newMessageForm" name="newMessage">
+    <div>
+    <input type="text" id="userName" placeholder="Enter your nickname" name="username">
+    </div>
+    <div>
+    <textarea id="newMessage"></textarea>
+    <button data-action="add" id="addmessagebutton">SEND</button>
+    </div>
+    <button data-close-modal>QUIT CONV</button>
  </form>
-    
+ </div>
+ <script>
+const openButton = document.querySelector('[data-modal-target]');
+const closeButton = document.querySelector('[data-close-modal]');
+const modal = document.querySelector(openButton.dataset.modalTarget);
+const textarea = document.getElementById('newMessage');
+const addMessageButton = document.getElementById('addmessagebutton');
+const messageBox = document.getElementById('messageBox');
+const userName = document.getElementById('userName');
+
+addMessageButton.addEventListener('click', (event) => {
+        event.preventDefault();
+
+    const MessageContent = textarea.value.trim();
+    const nickName = userName.value.trim();
+
+    if (MessageContent && nickName) {
+        const newMessage = document.createElement('p');
+        newMessage.textContent = nickName + ': ' + MessageContent;
+        messageBox.appendChild(newMessage);
+        textarea.value = '';
+    }
+});
+
+openButton.addEventListener('click', () => {
+    modal.style.display = 'block';
+});
+
+closeButton.addEventListener('click', () => {
+    modal.style.display = 'none';
+});
+ </script>
 </body>
 </html>

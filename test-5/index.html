@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="chatrooms">
+    <h1>Chat avec les gens !</h1>
+<ul>
+    <li>Pierre le Pisteur  <button data-modal-target="#myMessageBox" id="messages">+CHAT</button>
+        <div id="myMessageBox" class="modal">
+           <div id="messageBox">
+               <p> test message</p>
+           </div>
+        <form id="newMessageForm" name="newMessage">
+           <div>
+           <input type="text" id="userName" placeholder="Enter your nickname" name="username">
+           </div>
+           <div>
+           <textarea id="newMessage"></textarea>
+           <button data-action="add" id="addmessagebutton">SEND</button>
+           </div>
+           <button data-close-modal>QUIT CONV</button>
+        </form>
+        </div></li>
+        <li>Paul le fisteur <button data-modal-target="#myMessageBox">+CHAT</button>
+        <div class="modaltest">
+            <div class="message-box">
+                <p>user : test message</p>
+            </div>
+            <form class="newMessagesForm">
+                <div>
+                    <input type="text" class="user-name" placeholder="Enter your nickname" name="user-name">
+                    </div>
+                    <div>
+                    <textarea class="newMessages"></textarea>
+                    <button data-action="add" class="add-message-button">SEND</button>
+                    </div>
+                    <button data-close-modal>QUIT CONV</button>
+            </form>
+        </div>
+        </li>
+</ul>
+</div>
+<script>
+
+const textareatest = document.getElementsByClassName('newMessages')[0];
+const messageBoxs = document.getElementsByClassName('message-box')[0];
+const userNames = document.getElementsByClassName('user-name')[0];
+const addMessageButtontest = document.getElementsByClassName('add-message-button')[0];
+
+const textarea = document.getElementById('newMessage');
+const addMessageButton = document.getElementById('addmessagebutton');
+const messageBox = document.getElementById('messageBox');
+const userName = document.getElementById('userName');
+
+// Récupère tous les boutons qui ouvrent un modal
+const openButtons = document.querySelectorAll('[data-modal-target]');
+
+// Ajoute un gestionnaire d'événements à chaque bouton
+openButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const target = button.dataset.modalTarget; // Récupère la cible du modal
+        const modal = document.querySelector(target); // Sélectionne le modal
+        modal.style.display = 'block'; // Affiche le modal
+    });
+});
+
+// Gestion du bouton de fermeture
+const closeButtons = document.querySelectorAll('[data-close-modal]');
+closeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        const modal = button.closest('.modal, .modaltest'); // Ferme le modal parent
+        modal.style.display = 'none';
+    });
+});
+
+addMessageButton.addEventListener('click', (event) => {
+        event.preventDefault();
+
+    const MessageContent = textarea.value.trim();
+    const nickName = userName.value.trim();
+
+    if (MessageContent && nickName) {
+        const newMessage = document.createElement('p');
+        newMessage.textContent = nickName + ': ' + MessageContent;
+        messageBox.appendChild(newMessage);
+        textarea.value = '';
+        userName.value='';
+    }
+});
+
+addMessageButtontest.addEventListener('click', (event) => {
+        event.preventDefault();
+
+    const MessageContents = textareatest.value.trim();
+    const nickNames = userNames.value.trim();
+
+    if (MessageContents && nickNames) {
+        const newMessages = document.createElement('p');
+        newMessages.textContent = nickNames + ': ' + MessageContents;
+        messageBoxs.appendChild(newMessages);
+        textareatest.value = '';
+        userNames.value='';
+    }
+});
+
+</script>
+</body>
+</html>
