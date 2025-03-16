@@ -7,16 +7,27 @@
     width: 30%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
+    
 }
 
 .modal p {
+    
+    display: block;
     width: fit-content;
     background-color: white;
-    padding: 20px;
+    padding: 10px;
     border-radius: 5px;
     border: 2px solid black;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.modal h1 {
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
 }
 
 .modaltest {
@@ -37,4 +48,66 @@
     padding: 20px;
     border-radius: 5px;
     border: 2px solid black;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+.message-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.message-item .delete-icon {
+    display: none;
+    cursor: pointer;
+    color: whitesmoke;
+}
+
+.message-item:hover .delete-icon {
+    display: inline; /* Change 'flex' to 'inline' or your preferred display type */
+}
+
+.delete-icon:hover {
+    color: brown;
+}
+.newMessagesForm {
+    position: relative;
+    left: 20px;
+    height: 500px;
+
+    
+}
+.newMessages {
+    margin-top: 5px;
+    height: 100%;
+    border-radius: 5%;
+}
+
+#messagescontainer {
+    display: flex;
+    height: 100px;
+    gap: 5px;
+}
+
+#messageboxbuttons {
+    margin-top: 20px;
+}
+
+.add-message-button {
+    position: relative;
+    height: 80%;
+    top: 15px;
+    border-radius: 20%;
+    font-size: 15px;
+    font-weight: 700;
+    color: whitesmoke;
+    
+}
+#userName1 {
+    width: 100px;
+}
+
+.message-box {
+    position: relative;
+    left: 10px;
 }

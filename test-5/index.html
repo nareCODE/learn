@@ -5,109 +5,184 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Ajout de FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div id="chatrooms">
     <h1>Chat avec les gens !</h1>
-<ul>
-    <li>Pierre le Pisteur  <button data-modal-target="#myMessageBox" id="messages">+CHAT</button>
-        <div id="myMessageBox" class="modal">
-           <div id="messageBox">
-               <p> test message</p>
-           </div>
-        <form id="newMessageForm" name="newMessage">
-           <div>
-           <input type="text" id="userName" placeholder="Enter your nickname" name="username">
-           </div>
-           <div>
-           <textarea id="newMessage"></textarea>
-           <button data-action="add" id="addmessagebutton">SEND</button>
-           </div>
-           <button data-close-modal>QUIT CONV</button>
-        </form>
-        </div></li>
-        <li>Paul le fisteur <button data-modal-target="#myMessageBox">+CHAT</button>
-        <div class="modaltest">
-            <div class="message-box">
-                <p>user : test message</p>
+    <ul>
+        <li>Pierre le Pisteur
+            <button data-modal-target="#myMessageBox1" id="messages">+CHAT</button>
+            <div id="myMessageBox1" class="modal">
+                <div id="messageBox1" class="message-box">
+                    <p>test message</p>
+                </div>
+                <form id="newMessageForm1" class="newMessagesForm">
+                    <div>
+                        <input type="text" id="userName1" class="user-name" placeholder="Your Nickname" name="username">
+                    </div>
+                    <div id="messagescontainer">
+                        <textarea id="newMessage1" class="newMessages"></textarea>
+                        <button data-action="add" id="addmessagebutton1" class="add-message-button">SEND</button>
+                    </div>
+                    <div id="messageboxbuttons">
+                    <button data-action="reset" type="reset" id="resetconvbutton">CLEAR CONV</button>
+                    <button data-close-modal>QUIT CONV</button>
+                    </div>
+                </form>
             </div>
-            <form class="newMessagesForm">
-                <div>
-                    <input type="text" class="user-name" placeholder="Enter your nickname" name="user-name">
+        </li>
+        <li>Paul le fisteur
+            <button data-modal-target="#myMessageBox2">+CHAT</button>
+            <div id="myMessageBox2" class="modal">
+                <div id="messageBox2" class="message-box">
+                    <p>user : test message</p>
+                </div>
+                <form id="newMessageForm2" class="newMessagesForm">
+                    <div>
+                        <input type="text" id="userName2" class="user-name" placeholder="Enter your nickname" name="user-name">
                     </div>
                     <div>
-                    <textarea class="newMessages"></textarea>
-                    <button data-action="add" class="add-message-button">SEND</button>
+                        <textarea id="newMessage2" class="newMessages"></textarea>
+                        <button data-action="add" id="addmessagebutton2" class="add-message-button">SEND</button>
                     </div>
                     <button data-close-modal>QUIT CONV</button>
-            </form>
-        </div>
+                </form>
+            </div>
         </li>
-</ul>
+    </ul>
 </div>
 <script>
+    const openButtons = document.querySelectorAll('[data-modal-target]');
 
-const textareatest = document.getElementsByClassName('newMessages')[0];
-const messageBoxs = document.getElementsByClassName('message-box')[0];
-const userNames = document.getElementsByClassName('user-name')[0];
-const addMessageButtontest = document.getElementsByClassName('add-message-button')[0];
+    // Gestion de l'ouverture des modals
+    openButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const target = button.dataset.modalTarget; // Récupère la cible du modal
+            const modal = document.querySelector(target); // Sélectionne le modal
+            modal.style.display = 'block'; // Affiche le modal
 
-const textarea = document.getElementById('newMessage');
-const addMessageButton = document.getElementById('addmessagebutton');
-const messageBox = document.getElementById('messageBox');
-const userName = document.getElementById('userName');
+            // Récupère les messages du localStorage pour ce modal spécifique
+            const modalId = modal.id; // Identifiant unique du modal
+            const messages = JSON.parse(localStorage.getItem(`messages_${modalId}`)) || [];
+            const messageBox = modal.querySelector('.message-box');
+            messageBox.innerHTML = ''; // Efface les messages actuels avant d'ajouter les nouveaux
+            messages.forEach((message, index) => {
+                const newMessage = document.createElement('div');
+                newMessage.className = 'message-item';
+                newMessage.innerHTML = `
+                    <i style="cursor: pointer;" class="fa-regular fa-user"></i>
+                    <h1> OLD </h1>
+                    <p>${message}</p>
+                    <i class="fas fa-trash delete-icon" data-message-index="${index}"></i>
+                `;
+                messageBox.appendChild(newMessage);
+            });
 
-// Récupère tous les boutons qui ouvrent un modal
-const openButtons = document.querySelectorAll('[data-modal-target]');
-
-// Ajoute un gestionnaire d'événements à chaque bouton
-openButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        const target = button.dataset.modalTarget; // Récupère la cible du modal
-        const modal = document.querySelector(target); // Sélectionne le modal
-        modal.style.display = 'block'; // Affiche le modal
+            // Ajoute un gestionnaire d'événements pour la suppression des messages
+            const deleteIcons = modal.querySelectorAll('.delete-icon');
+            deleteIcons.forEach((icon) => {
+                icon.addEventListener('click', () => {
+                    const index = icon.dataset.messageIndex;
+                    messages.splice(index, 1); // Supprime le message du tableau
+                    localStorage.setItem(`messages_${modalId}`, JSON.stringify(messages)); // Met à jour le localStorage
+                    icon.closest('.message-item').remove(); // Supprime le message du DOM
+                });
+            });
+        });
     });
-});
 
-// Gestion du bouton de fermeture
-const closeButtons = document.querySelectorAll('[data-close-modal]');
-closeButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        const modal = button.closest('.modal, .modaltest'); // Ferme le modal parent
-        modal.style.display = 'none';
+    // Gestion de la fermeture des modals
+    const closeButtons = document.querySelectorAll('[data-close-modal]');
+    closeButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            const modal = button.closest('.modal'); // Ferme le modal parent
+            modal.style.display = 'none';
+        });
     });
-});
 
-addMessageButton.addEventListener('click', (event) => {
-        event.preventDefault();
+// Fonction pour sélectionner une couleur aléatoire
+function generateRandomRGB() {
+    const r = Math.floor(Math.random() * 256); // Valeur rouge (0-255)
+    const g = Math.floor(Math.random() * 256); // Valeur verte (0-255)
+    const b = Math.floor(Math.random() * 256); // Valeur bleue (0-255)
 
-    const MessageContent = textarea.value.trim();
-    const nickName = userName.value.trim();
+    return `rgb(${r}, ${g}, ${b})`; // Retourne une couleur au format rgb()
+}
 
-    if (MessageContent && nickName) {
-        const newMessage = document.createElement('p');
-        newMessage.textContent = nickName + ': ' + MessageContent;
-        messageBox.appendChild(newMessage);
-        textarea.value = '';
-        userName.value='';
+
+    // Gestion de l'ajout de messages
+    const addMessageButtons = document.querySelectorAll('.add-message-button');
+    addMessageButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            const form = button.closest('form');
+            const textarea = form.querySelector('.newMessages');
+            const userNameInput = form.querySelector('.user-name');
+            const messageBox = form.closest('.modal').querySelector('.message-box');
+            const modalId = form.closest('.modal').id; // Récupère l'identifiant du modal
+
+            const messageContent = textarea.value.trim();
+            const nickname = userNameInput.value.trim();
+            const randomColor = generateRandomRGB();
+
+            if (messageContent && nickname) {
+                const newMessage = document.createElement('div');
+                newMessage.className = 'message-item';
+                newMessage.innerHTML = `
+                    <i style="cursor: pointer;" class="fa-regular fa-user"></i>
+                    <h1 style="color:${randomColor}">${nickname}</h1>
+                    <p>${messageContent}</p>
+                    <i class="fas fa-trash delete-icon" data-message-index="${messageBox.children.length}"></i>
+                `;
+                messageBox.appendChild(newMessage);
+                textarea.value = '';
+                userNameInput.value = '';
+                changeH1ColorOnNewMessage();
+
+                // Stocke le message dans le localStorage avec une clé spécifique au modal
+                const messages = JSON.parse(localStorage.getItem(`messages_${modalId}`)) || [];
+                messages.push(`${nickname}: ${messageContent}`);
+                localStorage.setItem(`messages_${modalId}`, JSON.stringify(messages));
+
+                // Ajoute un gestionnaire d'événements pour la suppression du nouveau message
+                const deleteIcon = newMessage.querySelector('.delete-icon');
+                deleteIcon.addEventListener('click', () => {
+                    const index = deleteIcon.dataset.messageIndex;
+                    messages.splice(index, 1); // Supprime le message du tableau
+                    localStorage.setItem(`messages_${modalId}`, JSON.stringify(messages)); // Met à jour le localStorage
+                    newMessage.remove(); // Supprime le message du DOM
+                });
+            }
+        });
+    });
+
+const forms = document.querySelectorAll('.newMessagesForm');
+
+// Appliquer la logique pour chaque formulaire
+forms.forEach((form) => {
+    const textarea = form.querySelector('.newMessages');
+    const buttonSend = form.querySelector('.add-message-button');
+    // Vérifie si le bouton doit être rouge ou vert
+    function canSend() {
+        if (textarea.value.trim() === "") {
+            // Bouton rouge si le textarea est vide
+            buttonSend.style.backgroundColor = 'red';
+        } else {
+            // Bouton vert si le textarea contient du texte
+            buttonSend.style.backgroundColor = 'green';
+        }
+        
     }
+
+    // Appeler `canSend()` chaque fois que du texte est entré dans le textarea
+    textarea.addEventListener('input', canSend);
+
+    // Appeler initialement `canSend()` pour qu'il vérifie au premier chargement de la page
+    canSend();
 });
-
-addMessageButtontest.addEventListener('click', (event) => {
-        event.preventDefault();
-
-    const MessageContents = textareatest.value.trim();
-    const nickNames = userNames.value.trim();
-
-    if (MessageContents && nickNames) {
-        const newMessages = document.createElement('p');
-        newMessages.textContent = nickNames + ': ' + MessageContents;
-        messageBoxs.appendChild(newMessages);
-        textareatest.value = '';
-        userNames.value='';
-    }
-});
-
 </script>
 </body>
 </html>
